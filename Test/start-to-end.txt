@@ -1,0 +1,79 @@
+#INSTALL docker desktop from the official docker website 
+
+  **NOTE THIS INSTALLATION GUIDE IS WELL SUITED FOR WINDOWS 10 PRO USERS**
+  **OTHER USERS CAN USE LINUX OS OR VIRTUALBOX CUZ WE NEED HYPER-V FEATURE WHICH IS ONLY AVAILABLE IN 10**
+  
+  ---> https://docs.docker.com/desktop/windows/install/
+
+  ---> Enable Hyper-V & Containers Feature by Opening PowerShell as administrator and run this command
+
+         -> Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
+         -> Enable-WindowsOptionalFeature -Online -FeatureName containers –All
+
+
+
+#Command to BUILD to docker image
+
+  ---> docker build -t node .
+
+
+
+#Command to RUN docker image
+
+  ---> docker run -p 80:80 -d --rm --name node-container node
+
+
+
+#Command to CHANGE docker image name
+
+  ---> docker build tag node kosmic101010/node       (!!you have to write YOUR own docker hub repo image name!!) 
+                                                     (create an account on docker hub)
+
+
+#Command to PUSH image on docker hub 
+
+  ---> docker push kosmic101010/node                 (!!write your own changed image name!!)
+
+
+
+#Create an AWS EC2 Instance with following capabilities.
+
+       ---> Create new key pair login, give any name(eg-new) and download the new.pem file[keep new.pem file in the same directory as your project(Test)] 
+            and after that change the permission of pem file by below commands.(open the CLI where the new.pem file is located and then execute these command) 
+                  **This commands are only for WINDOWS user which is familar to LINUX "chmod 400 new.pem" command**
+
+                     - icacls.exe new.pem /reset
+                     - icacls.exe new.pem /GRANT:R "$($env:USERNAME):(R)"
+                     - icacls.exe new.pem /inheritance:r
+
+       ---> In Network setting - enable Auto-assign public IP
+
+       ---> Add SECURITY GROUP RULE(Inbound rule) with TYPE:HTTP & SOURCE-TYPE:ANYWHERE. 
+       
+       ---> Rest, keep everything default and Launch the INSTANCE.
+
+       ---> Connect the ec2 instance to host machine cli by SSH 
+
+
+#Install docker on ec2 instance then pull and run the image
+
+  ---> sudo yum install docker
+
+  ---> sudo service docker start
+
+  ---> sudo docker run -p 80:80 -d kosmic101010/node    
+      (!!don't need to pull the image beacuse RUN command will automatically download the image from docker hub while executing!!)
+
+
+
+                                                         -------------------------THANKYOU------------------------
+
+
+
+        
+
+
+
+
+
+
